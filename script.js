@@ -77,7 +77,7 @@ function getPairs(arr, sum) {
             //console.log(value == pair[index])
         });*/
 }
-
+/*
 // sum  = 5
 const result = getPairs([22, 3, 5, 0, 2, 2], 5);
 console.log(result);
@@ -95,3 +95,26 @@ console.log('result: [[5, 0], [5, 0], [5, 0]]');
 const result3 = getPairs([3, 3, 6, 0], 6);
 console.log(result3);
 console.log('result: [[3, 3], [6, 0]]');
+*/
+
+function getProfit(arr) {
+    return arr.map( (firstV, index) => arr.slice(index + 1).map( (secondV, indexSecond) => { 
+        //return [index, index + 1 + indexSecond, secondV - firstV];
+        return [secondV - firstV, index, index + 1 + indexSecond];
+    })) // собираем элементы парами и ставим им вес
+    .flat()
+    //.filter( pair => pair[2] > 0 )
+    //.reduce( (prev, curr) => prev[2] > curr[2] ? prev : curr ) // находим наибольшую разницу
+    .reduce( (prev, curr) => prev[0] > curr[0] ? prev : curr ) // находим наибольшую разницу
+    .reduce( (prev, curr) => prev <= 0 ? [] : [prev, curr] );
+    //.slice(0,2);
+}
+
+console.log(getProfit([13, 6, 3, 4, 10, 2, 3]));
+console.log('result: [2, 4]');
+
+console.log(getProfit([6, 5, 4, 3]));
+console.log('result: []');
+
+console.log(getProfit([3, 3, 3, 3]));
+console.log('result: []');
