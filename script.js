@@ -131,22 +131,54 @@ function resultsMatched(arr, sum, expectedArr) {
     if (res.length != expectedArr.length)
         return false;
 
-    /*for (let i = 0; i < res.length; i++) {
-        if (res[i] != expectedArr[i])
-            return false;*/
-    res.map( pair => expectedArr.map(secPair=> {
-        for (let i = 0; i < 2; i++) {
-            if (res[i] != expectedArr[i])
+        /*res.map( pair => expectedArr.map(secPair=> {
+            for (let i = 0; i < 2; i++) {
+                if (res[i] != expectedArr[i])
                 return false;
-    }}))
+            }}))*/
+    /*
+    const results = res.flat().filter(i=>!expectedArr.flat().includes(i))
+    .concat(expectedArr.flat().filter(i=>!res.flat().includes(i)));
 
+    const isCool = false;
+
+    return isCool && results;
+    */
+
+    
     const diff = (a1, a2) => {
         return a1.filter(i=>!a2.includes(i))
         .concat(a2.filter(i=>!a1.includes(i)));
     }
 
-    //}
+    const listCompare = [];
+    
+    for (let i = 0; i < res.length; i++) {
+        let diffArr = diff(res[i], expectedArr[i]);
+        if (diffArr.length != 0)
+            listCompare.push(diffArr);
+        //if (res[i] != expectedArr[i])
+            //return false;
+    }
 
+    //return diff(listCompare[0], listCompare[1]).length != 0 ? false : true;
+
+    const resIndex = res.reduce( (prevIndex, pair) => prevIndex.concat(expectedArr.findIndex( (secPair, index) => {
+        if(pair[0] == secPair[0] && pair[1] == secPair[1] && !prevIndex.find(v=>v==index))
+            { 
+                //prevIndex.push(index);//'' + secPair[0] + secPair[1];//true;
+                return true;
+            }
+        //return false;
+    })),[]).findIndex(v=>v==-1);
+    
+    const results = expectedArr.map( pair => pair.reverse() ).filter( pair => {
+        if(pair[0] == res[resIndex][0] && pair[1] == res[resIndex][1])
+            return true;        
+    });
+    //.find(value=>value==true) );//.every(value=>value==true);
+    console.log(results);
+    //console.log(res.filter( pair => expectedArr.includes(pair)));
     //return true;
 }
 // [-5,10][2,3][2,3][5,0]
