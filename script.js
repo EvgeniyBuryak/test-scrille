@@ -109,16 +109,8 @@ function getProfit(arr) {
     //.reduce( (prev, curr) => curr <= 0 ? [] : prev.concat(curr), []);
     //.slice(0,2);
     .reduce( (prev, curr) => { 
-        if (curr <= 0) {
-            return -1;
-        }
-        else {
-            if (Array.isArray(prev)) { 
-                return prev.concat(curr);
-            } else {
-                return [];
-            }
-        }         
+        if (curr <= 0) return -1;
+        else return Array.isArray(prev) ? prev.concat(curr) : [];
     }, [])
     .slice(1, 3);
 }
@@ -131,3 +123,32 @@ console.log('result: []');
 
 console.log(getProfit([3, 3, 3, 3]));
 console.log('result: []');
+
+function resultsMatched(arr, sum, expectedArr) {
+    let res = getPairs(arr, sum);
+    //console.log(`Third task: ${res}`);
+
+    if (res.length != expectedArr.length)
+        return false;
+
+    /*for (let i = 0; i < res.length; i++) {
+        if (res[i] != expectedArr[i])
+            return false;*/
+    res.map( pair => expectedArr.map(secPair=> {
+        for (let i = 0; i < 2; i++) {
+            if (res[i] != expectedArr[i])
+                return false;
+    }}))
+
+    const diff = (a1, a2) => {
+        return a1.filter(i=>!a2.includes(i))
+        .concat(a2.filter(i=>!a1.includes(i)));
+    }
+
+    //}
+
+    //return true;
+}
+// [-5,10][2,3][2,3][5,0]
+console.log(resultsMatched([-5, 33, 2, 2, 3, 5, 0, 10, 3], 5, [[ -5, 10], [2, 3], [5, 0], [3, 2]]));
+// true
