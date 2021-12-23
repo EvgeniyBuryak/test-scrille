@@ -46,15 +46,16 @@ function getPairs(arr, sum) {
     //return counter;
 
     return arr.map( (firstV, index) => arr.slice(index + 1).map( secondV => { 
-            if (firstV + secondV == sum) {
-                hash[firstV] -= 1;
-                hash[secondV] -= 1;
+            if (firstV + secondV == sum) { // в случае совпадения суммы чисел,
+                hash[firstV] -= 1; // уменьшаем на единицу
+                hash[secondV] -= 1; // возможные будущие совпадения
                 if (hash[firstV] >= 0 & hash[secondV] >= 0)
-                    return [firstV, secondV];
+                    return [firstV, secondV]; // и возращаем массив
             }
         }))
-        .flat()
-        .filter( pair => Array.isArray(pair) ); // выводит [[3, 2], [3, 2], [5, 0]], что неверно
+        .flat() // извлекаем вложенные массивы
+        .filter( pair => Array.isArray(pair) ); //
+        // выводит [[3, 2], [3, 2], [5, 0]], что неверно
         //.filter( pair => {
             //if (hash[pair[0]] < 0) { hash[pair[0]] += 1; return false; }
             //else if (hash[pair[1]] < 0) { hash[pair[1]] += 1; return false; }
@@ -79,7 +80,7 @@ function getPairs(arr, sum) {
 }
 
 // sum  = 5
-const result = getPairs([22, 3, 5, 0, 2, 2], 5);
+/*const result = getPairs([22, 3, 5, 0, 2, 2], 5);
 console.log(result);
 console.log('result: [[3, 2], [5, 0]]');
 
@@ -94,7 +95,7 @@ console.log('result: [[5, 0], [5, 0], [5, 0]]');
 // sum=6
 const result3 = getPairs([3, 3, 6, 0], 6);
 console.log(result3);
-console.log('result: [[3, 3], [6, 0]]');
+console.log('result: [[3, 3], [6, 0]]');*/
 
 
 function getProfit(arr) {
@@ -108,13 +109,13 @@ function getProfit(arr) {
     .reduce( (prev, curr) => prev[0] > curr[0] ? prev : curr ) // находим наибольшую разницу
     //.reduce( (prev, curr) => curr <= 0 ? [] : prev.concat(curr), []);
     //.slice(0,2);
-    .reduce( (prev, curr) => { 
+    .reduce( (prev, curr) => { // сортируем для вывода результата
         if (curr <= 0) return -1;
         else return Array.isArray(prev) ? prev.concat(curr) : [];
     }, [])
     .slice(1, 3);
 }
-
+/*
 console.log(getProfit([13, 6, 3, 4, 10, 2, 3]));
 console.log('result: [2, 4]');
 
@@ -122,7 +123,7 @@ console.log(getProfit([6, 5, 4, 3]));
 console.log('result: []');
 
 console.log(getProfit([3, 3, 3, 3]));
-console.log('result: []');
+console.log('result: []');*/
 
 function resultsMatched(arr, sum, expectedArr) {
     let res = getPairs(arr, sum);
@@ -146,22 +147,22 @@ function resultsMatched(arr, sum, expectedArr) {
     */
 
     
-    const diff = (a1, a2) => {
+    const diff = (a1, a2) => { // сравниваем
         return a1.filter(i=>!a2.includes(i))
         .concat(a2.filter(i=>!a1.includes(i)));
     }
 
-    const listCompare = [];
+    const resultCompared = [];
     
     for (let i = 0; i < res.length; i++) {
         let diffArr = diff(res[i], expectedArr[i]);
         if (diffArr.length != 0)
-            listCompare.push(diffArr);
+            resultCompared.push(diffArr);
         //if (res[i] != expectedArr[i])
             //return false;
     }
 
-    //return diff(listCompare[0], listCompare[1]).length != 0 ? false : true;
+    //return diff(resultCompared[0], resultCompared[1]).length != 0 ? false : true;
 
     const resIndex = res.reduce( (prevIndex, pair) => prevIndex.concat(expectedArr.findIndex( (secPair, index) => {
         if(pair[0] == secPair[0] && pair[1] == secPair[1] && !prevIndex.find(v=>v==index))
